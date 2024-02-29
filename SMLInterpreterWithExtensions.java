@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class LargestNumberFinder {
+public class SMLInterpreterWithExtensions {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int[] memory = new int[100];
@@ -50,15 +50,48 @@ public class LargestNumberFinder {
                 case 21: // STORE
                     memory[operand] = accumulator;
                     break;
+                case 30: // ADD
+                    accumulator += memory[operand];
+                    break;
                 case 31: // SUBTRACT
-                    if (memory[operand] > accumulator) {
-                        accumulator = memory[operand];
+                    accumulator -= memory[operand];
+                    break;
+                case 32: // DIVIDE
+                    if (memory[operand] == 0) {
+                        System.out.println("*** Attempt to divide by zero ***");
+                        System.out.println("*** Simpletron execution abnormally terminated ***");
+                        return;
+                    }
+                    accumulator /= memory[operand];
+                    break;
+                case 33: // MULTIPLY
+                    accumulator *= memory[operand];
+                    break;
+                case 40: // BRANCH
+                    instructionCounter = operand - 1; // -1 to compensate for the automatic increment
+                    break;
+                case 41: // BRANCHNEG
+                    if (accumulator < 0) {
+                        instructionCounter = operand - 1;
+                    }
+                    break;
+                case 42: // BRANCHZERO
+                    if (accumulator == 0) {
+                        instructionCounter = operand - 1;
                     }
                     break;
                 case 43: // HALT
-                    System.out.println("Largest number found: " + accumulator);
                     System.out.println("Program terminated.");
                     return;
+                case 50: // REM (Remainder calculation)
+                    accumulator %= memory[operand];
+                    break;
+                case 51: // EXP (Exponentiation calculation)
+                    accumulator = (int) Math.pow(accumulator, memory[operand]);
+                    break;
+                case 52: // NEWLINE (Output a newline)
+                    System.out.println();
+                    break;
                 default:
                     System.out.println("Invalid opcode.");
                     return;
