@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import Constants; // Importing the Constants class
 
 public class SumPositive {
     public static void main(String[] args) {
