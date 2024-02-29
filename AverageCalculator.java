@@ -1,24 +1,35 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class AverageCalculator {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int totalNumbers = 7;
-        int sum = 0;
+        try {
+            File inputFile = new File("AverageFinder.txt"); // Change file name if needed
+            Scanner fileScanner = new Scanner(inputFile);
+            int totalNumbers = 7;
+            int sum = 0;
 
-        System.out.println("Enter seven numbers:");
+            for (int i = 0; i < totalNumbers; i++) {
+                int num = fileScanner.nextInt();
+                sum += num;
+            }
 
-        // Counter-controlled loop to read seven numbers
-        for (int i = 0; i < totalNumbers; i++) {
-            System.out.print("Number " + (i + 1) + ": ");
-            int num = scanner.nextInt();
-            sum += num;
+            double average = (double) sum / totalNumbers;
+            System.out.println("Average of the seven numbers: " + average);
+            fileScanner.close();
+
+            // Memory dump (optional)
+            dumpMemory();
+
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found.");
         }
+    }
 
-        double average = (double) sum / totalNumbers;
-
-        System.out.println("Average of the seven numbers: " + average);
-        
-        scanner.close();
+    private static void dumpMemory() {
+        // Add code to dump memory here
+        System.out.println("Memory dump:");
+        // Implement memory dump logic here
     }
 }
