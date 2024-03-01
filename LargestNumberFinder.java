@@ -4,7 +4,7 @@ public class LargestNumberFinder {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int[] memory = new int[100];
-        int accumulator = 0;
+        int largestNumber = Integer.MIN_VALUE; // Initialize with the smallest possible integer value
         int instructionCounter = 0;
 
         System.out.println("*** Welcome to Simpletron! ***");
@@ -18,14 +18,14 @@ public class LargestNumberFinder {
         // Read SML instructions into memory
         int index = 0;
         while (true) {
-            System.out.printf("%2d ? ", index);
-            int instruction = scanner.nextInt();
-
-            if (instruction == -99999) {
+            System.out.printf("%02d ? ", index);
+            int opcode = scanner.nextInt();
+            
+            if (opcode == -99999) {
                 break;
             }
 
-            memory[index++] = instruction;
+            memory[index++] = opcode;
         }
 
         System.out.println("*** Program loading completed ***");
@@ -33,34 +33,21 @@ public class LargestNumberFinder {
 
         // Execute SML instructions
         while (instructionCounter < index) {
-            int opcode = memory[instructionCounter] / 100;
-            int operand = memory[instructionCounter] % 100;
+            int opcode = memory[instructionCounter];
 
             switch (opcode) {
                 case 10: // READ
-                    System.out.print("Enter a value: ");
-                    memory[operand] = scanner.nextInt();
-                    break;
-                case 11: // WRITE
-                    System.out.println(memory[operand]);
-                    break;
-                case 20: // LOAD
-                    accumulator = memory[operand];
-                    break;
-                case 21: // STORE
-                    memory[operand] = accumulator;
-                    break;
-                case 31: // SUBTRACT
-                    if (memory[operand] > accumulator) {
-                        accumulator = memory[operand];
+                    System.out.print("Enter a number: ");
+                    int number = scanner.nextInt();
+                    if (number > largestNumber) {
+                        largestNumber = number; // Update largestNumber if the entered number is larger
                     }
                     break;
+                case 11: // WRITE
+                    System.out.println("Largest number entered: " + largestNumber);
+                    break;
                 case 43: // HALT
-                    System.out.println("Largest number found: " + accumulator);
                     System.out.println("Program terminated.");
-                    return;
-                default:
-                    System.out.println("Invalid opcode.");
                     return;
             }
 
