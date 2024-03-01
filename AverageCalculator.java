@@ -1,10 +1,11 @@
 import java.util.Scanner;
+import java.text.DecimalFormat;
 
 public class AverageCalculator {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int[] memory = new int[100];
-        int total = 0;
+        double total = 0.0; // Changed to double to handle decimal values
         int count = 0;
         double average = 0.0;
         int instructionCounter = 0;
@@ -27,7 +28,7 @@ public class AverageCalculator {
                 break;
             }
 
-            if (opcode != 10 && opcode != 43) {
+            if (opcode != 10 && opcode != 43 && opcode != 50 && opcode != 51 && opcode != 52) {
                 System.out.println("Invalid opcode.");
                 return;
             }
@@ -45,7 +46,7 @@ public class AverageCalculator {
             switch (opcode) {
                 case 10: // READ
                     System.out.print("Enter a value: ");
-                    int temp = scanner.nextInt();
+                    double temp = scanner.nextDouble();
                     if (temp < 0) {
                         break; // Terminate input on a negative number
                     } else {
@@ -55,13 +56,33 @@ public class AverageCalculator {
                     break;
                 case 43: // HALT
                     if (count != 0) {
-                        average = (double) total / count; // Calculate average
-                        System.out.println("Average of positive numbers: " + average);
+                        average = total / count; // Calculate average
+                        DecimalFormat df = new DecimalFormat("#.##"); // Format average to two decimal places
+                        System.out.println("Average of positive numbers: " + df.format(average));
                     } else {
                         System.out.println("No positive numbers entered.");
                     }
                     System.out.println("Program terminated.");
                     return;
+                case 50: // REMAINDER
+                    System.out.print("Enter the first number: ");
+                    int num1 = scanner.nextInt();
+                    System.out.print("Enter the second number: ");
+                    int num2 = scanner.nextInt();
+                    int remainder = num1 % num2;
+                    System.out.println("Remainder: " + remainder);
+                    break;
+                case 51: // EXPONENTIATION
+                    System.out.print("Enter the base: ");
+                    int base = scanner.nextInt();
+                    System.out.print("Enter the exponent: ");
+                    int exponent = scanner.nextInt();
+                    double result = Math.pow(base, exponent);
+                    System.out.println("Result: " + result);
+                    break;
+                case 52: // NEWLINE
+                    System.out.println();
+                    break;
             }
 
             instructionCounter++;

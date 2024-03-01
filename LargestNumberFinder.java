@@ -20,7 +20,7 @@ public class LargestNumberFinder {
         while (true) {
             System.out.printf("%02d ? ", index);
             int opcode = scanner.nextInt();
-            
+
             if (opcode == -99999) {
                 break;
             }
@@ -49,6 +49,21 @@ public class LargestNumberFinder {
                 case 43: // HALT
                     System.out.println("Program terminated.");
                     return;
+                case 50: // REMAINDER
+                    int dividend = memory[++instructionCounter]; // Get the dividend
+                    int divisor = memory[++instructionCounter]; // Get the divisor
+                    int remainder = dividend % divisor; // Calculate the remainder
+                    memory[++instructionCounter] = remainder; // Store the remainder in memory
+                    break;
+                case 51: // EXPONENTIATION
+                    int base = memory[++instructionCounter]; // Get the base
+                    int exponent = memory[++instructionCounter]; // Get the exponent
+                    int result = (int) Math.pow(base, exponent); // Calculate the result
+                    memory[++instructionCounter] = result; // Store the result in memory
+                    break;
+                case 52: // NEWLINE
+                    System.out.println(); // Output a newline
+                    break;
             }
 
             instructionCounter++;
