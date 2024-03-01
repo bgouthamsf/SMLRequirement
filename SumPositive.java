@@ -18,14 +18,19 @@ public class SumPositive {
         // Read SML instructions into memory
         int index = 0;
         while (true) {
-            System.out.printf("%2d ? ", index);
-            int instruction = scanner.nextInt();
-
-            if (instruction == -99999) {
+            System.out.printf("%02d ? ", index);
+            int opcode = scanner.nextInt();
+            
+            if (opcode == -99999) {
                 break;
             }
 
-            memory[index++] = instruction;
+            if (opcode != 10 && opcode != 11 && opcode != 43 && opcode != 50 && opcode != 51 && opcode != 52) {
+                System.out.println("Invalid opcode.");
+                return;
+            }
+
+            memory[index++] = opcode;
         }
 
         System.out.println("*** Program loading completed ***");
@@ -33,8 +38,7 @@ public class SumPositive {
 
         // Execute SML instructions
         while (instructionCounter < index) {
-            int opcode = memory[instructionCounter] / 100;
-            int operand = memory[instructionCounter] % 100;
+            int opcode = memory[instructionCounter];
 
             switch (opcode) {
                 case 10: // READ
@@ -52,9 +56,25 @@ public class SumPositive {
                 case 43: // HALT
                     System.out.println("Program terminated.");
                     return;
-                default:
-                    System.out.println("Invalid opcode.");
-                    return;
+                case 50: // REMAINDER
+                    System.out.print("Enter the first number: ");
+                    int num1 = scanner.nextInt();
+                    System.out.print("Enter the second number: ");
+                    int num2 = scanner.nextInt();
+                    int remainder = num1 % num2;
+                    System.out.println("Remainder: " + remainder);
+                    break;
+                case 51: // EXPONENTIATION
+                    System.out.print("Enter the base: ");
+                    int base = scanner.nextInt();
+                    System.out.print("Enter the exponent: ");
+                    int exponent = scanner.nextInt();
+                    double result = Math.pow(base, exponent);
+                    System.out.println("Result: " + result);
+                    break;
+                case 52: // NEWLINE
+                    System.out.println();
+                    break;
             }
 
             instructionCounter++;
